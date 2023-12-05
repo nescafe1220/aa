@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: deploy1-httpd-admin
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: httpd-admin
+ template:
+   metadata:
+     labels:
+       app: httpd-admin
+   spec:
+     containers:
+     - name: pod-httpd-admin
+       image: nescafe1220/aa:httpd2.4
+       imagePullPolicy: Always
+       command: ["/bin/bash", "-ec", "while :; do echo '.'; sleep5 ; done"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: svc1-httpd-admin
+spec:
+ ports:
+   - name: httpd-port
+     port: 80
+     targetPort: 80
+ selector:
+   app: httpd-admin
+ type: NodePort

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: deploy1-mysql
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: mysql
+ template:
+   metadata:
+     labels:
+       app: mysql
+   spec:
+     containers:
+     - name: pod-mysql
+       image: nescafe1220/aa:mysql5.7
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: svc1-mysql
+spec:
+ ports:
+   - name: mysql-port
+     port: 3306
+     targetPort: 3306
+ selector:
+   app: mysql
+ type: NodePort
